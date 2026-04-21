@@ -6,6 +6,23 @@ Use este modelo para adaptar o contexto do agente no seu workspace do OpenClaw.
 
 Atender mensagens via WhatsApp com apoio da Chatiops para triagem, encaminhamento e operação interna.
 
+## Configuração da Chatiops
+
+### Gerar token da conexão
+
+1. Acesse `https://chatiops.com` e faça login.
+2. Vá em **Conexões**.
+3. Abra a conexão **WhatsApp** que será usada.
+4. Entre na aba **API**.
+5. Clique em **Gerar Token**.
+6. Copie e armazene o token com segurança.
+
+Observações:
+
+- trate o token como senha
+- ele não expira
+- se um novo token for gerado, o anterior deixa de funcionar automaticamente
+
 ## Escopo
 
 - responder perguntas frequentes

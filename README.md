@@ -7,8 +7,9 @@ Este repositório foi reorganizado para que qualquer pessoa consiga:
 1. clonar ou baixar o projeto
 2. instalar a skill no OpenClaw em poucos minutos
 3. configurar variáveis e playbook
-4. testar o fluxo
-5. usar a extensão auxiliar para descobrir o chat ID do WhatsApp Web
+4. gerar o token da Chatiops
+5. testar o fluxo
+6. usar a extensão auxiliar para descobrir o chat ID do WhatsApp Web
 
 ## O que vem neste repositório
 
@@ -77,7 +78,8 @@ Antes de usar em produção, tenha:
 
 - OpenClaw já instalado
 - acesso à sua conta da Chatiops
-- credenciais, tokens ou dados de integração necessários
+- uma conexão de WhatsApp já criada na Chatiops
+- token de API da conexão que será usada
 - WhatsApp Web disponível, se quiser capturar chat IDs com a extensão
 
 ## Configuração após instalar
@@ -90,7 +92,25 @@ Verifique se existe a pasta:
 ~/.agents/skills/openclaw-chatiops
 ```
 
-### 2. Use os templates no seu workspace
+### 2. Gere seu token no Chatiops
+
+Leva cerca de 1 minuto:
+
+1. Acesse `https://chatiops.com` e faça login.
+2. No menu lateral, vá em **Conexões**.
+3. Clique na conexão **WhatsApp** que você quer usar via API.
+4. Abra a aba **API**.
+5. Clique em **Gerar Token**.
+6. Copie o token.
+
+Importante:
+
+- trate esse token como senha
+- não compartilhe
+- o token não expira
+- se você gerar um novo token, o antigo para de funcionar automaticamente
+
+### 3. Use os templates no seu workspace
 
 O repositório inclui modelos em:
 
@@ -107,7 +127,7 @@ Você pode adaptar esses trechos para:
 
 Isso ajuda o agente a operar o fluxo com contexto consistente.
 
-### 3. Configure os dados da integração
+### 4. Configure os dados da integração
 
 Use o exemplo:
 
@@ -123,7 +143,15 @@ Exemplo:
 cp examples/.env.chatiops.example .env.chatiops
 ```
 
-### 4. Defina seu playbook
+Campos principais:
+
+- `CHATIOPS_BASE_URL`
+- `CHATIOPS_API_TOKEN`
+- `CHATIOPS_DEFAULT_DESTINATION`
+- `CHATIOPS_DEFAULT_CHANNEL`
+- `CHATIOPS_ENVIRONMENT`
+
+### 5. Defina seu playbook
 
 Use como base:
 
@@ -175,16 +203,18 @@ Formatos comuns:
 ## Fluxo recomendado de setup
 
 1. instalar a skill
-2. configurar segredos fora do Git
-3. identificar o chat ID de destino
-4. criar o playbook operacional
-5. testar cenário feliz
-6. testar falhas e fallback humano
-7. documentar operação
+2. gerar o token da conexão no Chatiops
+3. configurar segredos fora do Git
+4. identificar o chat ID de destino
+5. criar o playbook operacional
+6. testar cenário feliz
+7. testar falhas e fallback humano
+8. documentar operação
 
 ## Checklist de produção
 
 - skill instalada no diretório correto
+- token da conexão gerado no Chatiops
 - credenciais configuradas fora do repositório
 - chat ID validado
 - playbook documentado
@@ -213,6 +243,7 @@ bash install/uninstall.sh
 - nunca publique tokens ou credenciais
 - não exponha números privados sem necessidade
 - trate chat IDs e configurações como dados internos
+- se gerar um novo token, atualize imediatamente os ambientes que usam o token anterior
 - valide o comportamento antes de usar em grupos reais
 
 ## Referências

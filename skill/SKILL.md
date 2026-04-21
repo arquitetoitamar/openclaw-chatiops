@@ -11,6 +11,7 @@ Ajudar a:
 - estruturar playbooks operacionais
 - orientar testes, rollout e documentação
 - preparar um setup reutilizável para outras pessoas instalarem facilmente
+- orientar a geração e o uso do token da Chatiops
 
 ## Quando usar
 
@@ -21,6 +22,7 @@ Use esta skill para pedidos como:
 - "monte a documentação da skill de WhatsApp"
 - "quero organizar atendimento com OpenClaw + Chatiops"
 - "deixe esse repo fácil de instalar no OpenClaw"
+- "como gero o token da conexão no Chatiops?"
 
 ## Entregáveis esperados
 
@@ -33,6 +35,7 @@ Dependendo do pedido, entregue um ou mais destes itens:
 5. instruções para capturar o chat ID
 6. templates reutilizáveis para workspace
 7. scripts de instalação e remoção
+8. instruções seguras para gerar e trocar o token da Chatiops
 
 ## Procedimento recomendado
 
@@ -47,7 +50,25 @@ Levante rapidamente:
 
 Se o pedido já estiver claro, siga sem travar com perguntas desnecessárias.
 
-### 2. Descobrir o chat ID
+### 2. Gerar o token da Chatiops
+
+Quando a integração ainda não estiver pronta, orientar este caminho:
+
+1. acessar `https://chatiops.com` e fazer login
+2. abrir **Conexões** no menu lateral
+3. selecionar a conexão **WhatsApp** desejada
+4. abrir a aba **API**
+5. clicar em **Gerar Token**
+6. copiar e guardar o token em local seguro
+
+Regras importantes:
+
+- tratar o token como senha
+- nunca publicar ou commitar o token
+- o token não expira
+- se um novo token for gerado, o anterior deixa de funcionar automaticamente
+
+### 3. Descobrir o chat ID
 
 Quando necessário, orientar o uso da extensão `../wa-id-scanner/`:
 
@@ -62,7 +83,7 @@ Formatos comuns:
 - contato: `5511999999999@c.us`
 - grupo: `1203630xxxxxxxx@g.us`
 
-### 3. Estruturar o playbook
+### 4. Estruturar o playbook
 
 O playbook deve cobrir:
 
@@ -74,7 +95,7 @@ O playbook deve cobrir:
 - fallback para atendimento humano
 - tom de voz
 
-### 4. Produzir documentação utilizável
+### 5. Produzir documentação utilizável
 
 Preferir documentação prática, com:
 
@@ -84,7 +105,7 @@ Preferir documentação prática, com:
 - riscos e limitações
 - instruções de instalação e atualização
 
-### 5. Facilitar reuso por outras pessoas
+### 6. Facilitar reuso por outras pessoas
 
 Sempre que fizer sentido, deixar o projeto com:
 
@@ -94,7 +115,7 @@ Sempre que fizer sentido, deixar o projeto com:
 - templates prontos para adaptação
 - instruções claras de update e remoção
 
-### 6. Proteger dados
+### 7. Proteger dados
 
 Nunca expor:
 
@@ -108,6 +129,7 @@ Nunca expor:
 Antes de considerar pronto, verifique:
 
 - destino correto identificado
+- token da conexão gerado e armazenado com segurança
 - playbook documentado
 - tom de voz definido
 - regras de escalonamento definidas
