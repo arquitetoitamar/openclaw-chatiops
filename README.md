@@ -1,23 +1,71 @@
-# openclaw-chatiops
+# Chatiops × Claude , Skill de WhatsApp
 
-Skill e utilitários para operar um fluxo de ChatOps via WhatsApp com OpenClaw.
+Faça o **Claude** enviar mensagens de WhatsApp sozinho, usando a plataforma [Chatiops](https://chatiops.com). Sem escrever código. Você conversa em português normal e o Claude dispara o WhatsApp.
 
-## O que tem aqui
+> *"Manda um zap pro João dizendo que a reunião de amanhã foi remarcada pra quinta às 10h."*
+>
+> → Claude envia, você não mexe em nada.
 
-- `skill/SKILL.md`: instruções da habilidade `chatiops_whatsapp`
-- `examples/whatsapp-system-prompt.md`: exemplo de prompt/base operacional
-- `wa-id-scanner/`: extensão Chrome para capturar o chat id (JID) do WhatsApp Web
+---
 
-## Objetivo
+## ⬇️ Baixar e instalar
 
-Esta skill ajuda a transformar o OpenClaw em um operador de atendimento e automação via WhatsApp, com foco em:
+1. Baixe o arquivo **[`chatiops.skill`](https://github.com/arquitetoitamar/claude-chatiops/raw/main/chatiops.skill)** clicando aqui.
+2. Abra o Claude desktop no seu computador.
+3. **Arraste o arquivo `chatiops.skill`** para dentro da janela do Claude.
+4. Clique em **Instalar** quando o Claude perguntar.
 
-- identificar chat IDs de grupos e contatos
-- orientar configuração do canal WhatsApp no OpenClaw
-- padronizar playbooks de operação
-- dar uma base de uso para atendimento, triagem e ChatOps
+Pronto. Na primeira mensagem que você mandar, o Claude vai pedir seu **token do Chatiops** (como gerar, abaixo).
 
-## Estrutura
+---
+
+## 🔑 Gerar seu token no Chatiops (1 minuto)
+
+1. Acesse [chatiops.com](https://chatiops.com) e faça login.
+2. No menu lateral, vá em **Conexões**.
+3. Clique na conexão WhatsApp que você quer usar via API.
+4. Abra a aba **API** , clique em **Gerar Token**.
+5. **Copie o token.** (Trate como senha, não compartilhe.)
+
+> 💡 O token não expira. Se você gerar um novo, o antigo para de funcionar automaticamente.
+
+---
+
+## 💬 Exemplos de uso, só copiar e colar no Claude
+
+**Mensagem simples:**
+
+> "Manda no whatsapp pro 11 99999-9999: olá, segue o link da reunião https://meet.exemplo.com/abc"
+
+**Com prioridade urgente (OTP/código de verificação):**
+
+> "Dispara um whats pro 11 99999-9999 com o código 483921. Prioridade alta porque é OTP."
+
+**Com anexo (PDF, imagem, áudio):**
+
+> "Manda o arquivo boleto.pdf que está na minha pasta Downloads pro cliente 11 99999-9999, com a legenda 'Segue seu boleto do mês'."
+
+**Fechar atendimento após enviar:**
+
+> "Manda a mensagem de encerramento pro 11 99999-9999 e fecha o ticket."
+
+---
+
+## ⚙️ O que essa skill faz por baixo
+
+- Endpoint oficial: `POST https://api.chatiops.tiops.com.br/api/messages/send`
+- Autenticação: `Authorization: Bearer <seu_token>`
+- Texto: `application/json`
+- Mídia (PDF, imagem, áudio, vídeo): `multipart/form-data`
+- Respeita os 3 níveis de prioridade: `baixa`, `media`, `alta`
+- Avisa você antes de estourar os limites diários (20/dia no Starter, 100/dia no PRO)
+- Traduz erros HTTP em mensagens humanas (`token inválido` em vez de `401`)
+
+Documentação completa da API: [chatiops.com/developers](https://chatiops.com/developers).
+
+---
+
+## 📁 Conteúdo deste repositório
 
 ```text
 openclaw-chatiops/
@@ -29,92 +77,45 @@ openclaw-chatiops/
 └── wa-id-scanner/
 ```
 
-## Instalação rápida
+### O que existe hoje no repo
 
-### 1. Clonar
+- `README.md` , documentação principal
+- `skill/SKILL.md` , instruções-base da skill
+- `examples/whatsapp-system-prompt.md` , exemplo de prompt operacional
+- `wa-id-scanner/` , extensão auxiliar para capturar chat IDs no WhatsApp Web
 
-```bash
-git clone https://github.com/arquitetoitamar/openclaw-chatiops.git
-cd openclaw-chatiops
-```
+### O que falta para virar a experiência estilo Claude skill completa
 
-### 2. Instalar a extensão auxiliar
+Para ficar exatamente no formato descrito acima, o repositório ainda precisa incluir:
 
-1. Abra o Chrome
-2. Vá para `chrome://extensions`
-3. Ative `Developer mode`
-4. Clique em `Load unpacked`
-5. Selecione a pasta `wa-id-scanner/`
+- arquivo `chatiops.skill`
+- pasta-fonte no formato esperado pelo Claude
+- implementações reais de envio, por exemplo `scripts/send_message.py`
+- referências de API mais completas, por exemplo `references/api.md`
+- empacotamento final da skill para arrastar no Claude
 
-### 3. Usar a skill no ecossistema OpenClaw
+Ou seja, eu já alinhei o posicionamento do README com a proposta do produto, mas a estrutura atual do repositório ainda está mais próxima de uma base inicial do que do pacote final pronto para instalar.
 
-Copie ou adapte o conteúdo de `skill/SKILL.md` para sua biblioteca de skills, por exemplo:
+---
 
-```bash
-mkdir -p ~/.agents/skills/chatiops_whatsapp
-cp skill/SKILL.md ~/.agents/skills/chatiops_whatsapp/SKILL.md
-```
+## ⚠️ Cuidados importantes
 
-Ajuste os caminhos e instruções conforme sua instalação do OpenClaw.
+- **Nunca compartilhe seu token** em vídeos, screenshots, prints ou repositórios. Ele dá acesso total ao envio pelo seu WhatsApp.
+- **Não use `priority: alta` em disparo em massa** , o WhatsApp pode bloquear seu número de forma permanente. Use `alta` só para mensagens individuais urgentes, como OTP, confirmação de agendamento e alerta.
+- Esta é uma skill **não-oficial** da Anthropic. É mantida pela comunidade Chatiops e vem "como está".
 
-## Manual de uso
+---
 
-### Capturar o ID de um grupo ou contato
+## 📺 Vídeo tutorial
 
-1. Abra `https://web.whatsapp.com`
-2. Entre no grupo ou contato desejado
-3. Clique na extensão `WhatsApp ID Scanner`
-4. Clique em `Pegar ID do chat atual`
-5. Copie o valor retornado, como:
-   - `5511999999999@c.us`
-   - `1203630xxxxxxxx@g.us`
+Veja o passo a passo em vídeo no YouTube: *[link em breve]*
 
-### Onde isso ajuda
-
-Esse ID pode ser usado para:
-
-- mapear grupos de operação
-- documentar destinos de mensagens
-- alimentar configurações de roteamento
-- validar se você está automatizando o chat certo
-
-### Fluxo sugerido de operação
-
-1. Descobrir o chat ID com a extensão
-2. Registrar esse ID em documentação interna segura
-3. Criar o playbook operacional do grupo ou fila
-4. Configurar OpenClaw para monitorar e responder no canal certo
-5. Testar com mensagens controladas
-
-## Boas práticas
-
-- nunca publicar chat IDs privados em documentação pública sem necessidade
-- manter credenciais e tokens fora do repositório
-- testar em grupo piloto antes de produção
-- documentar claramente quem pode falar, quando e com qual tom
-- separar grupos humanos, grupos de alerta e grupos de comando
-
-## Exemplo de casos de uso
-
-- central de atendimento comercial no WhatsApp
-- triagem automática de mensagens
-- grupo interno de alertas operacionais
-- assistente para FAQ e direcionamento inicial
-- orquestração de tarefas via mensagens
-
-## Limitações
-
-- o DOM do WhatsApp Web muda com frequência
-- a extensão `wa-id-scanner` pode precisar de ajustes no futuro
-- a skill depende de configuração prévia do OpenClaw e do canal WhatsApp
-
-## Próximos passos recomendados
-
-- adicionar exemplos prontos de playbooks por setor
-- incluir template de memória operacional
-- incluir checklist de produção
-- versionar prompts por contexto de atendimento
+---
 
 ## Licença
 
-MIT
+MIT , use, modifique e distribua livremente. Veja [LICENSE](./LICENSE).
+
+---
+
+Feito com ☕ por [@arquitetoitamar](https://github.com/arquitetoitamar) usando a plataforma [Chatiops](https://chatiops.com).
