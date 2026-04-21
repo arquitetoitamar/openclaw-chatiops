@@ -1,15 +1,16 @@
-# chatiops_whatsapp
+# openclaw-chatiops
 
-Use esta skill quando a tarefa envolver operação, configuração, documentação ou suporte de fluxos ChatOps no WhatsApp usando OpenClaw.
+Use esta skill quando a tarefa envolver operação, configuração, documentação ou suporte de fluxos ChatOps no WhatsApp usando OpenClaw + Chatiops.
 
 ## Objetivo
 
 Ajudar a:
 
 - configurar fluxos de atendimento e automação via WhatsApp
-- identificar o chat ID (JID) de contatos e grupos
+- identificar o chat ID de contatos e grupos
 - estruturar playbooks operacionais
 - orientar testes, rollout e documentação
+- preparar um setup reutilizável para outras pessoas instalarem facilmente
 
 ## Quando usar
 
@@ -18,7 +19,8 @@ Use esta skill para pedidos como:
 - "configura um fluxo de ChatOps no WhatsApp"
 - "como pego o ID do grupo no WhatsApp Web?"
 - "monte a documentação da skill de WhatsApp"
-- "quero organizar atendimento com OpenClaw + WhatsApp"
+- "quero organizar atendimento com OpenClaw + Chatiops"
+- "deixe esse repo fácil de instalar no OpenClaw"
 
 ## Entregáveis esperados
 
@@ -28,7 +30,9 @@ Dependendo do pedido, entregue um ou mais destes itens:
 2. manual operacional
 3. prompts ou playbooks para atendimento
 4. checklist de testes
-5. instruções para capturar o JID do chat
+5. instruções para capturar o chat ID
+6. templates reutilizáveis para workspace
+7. scripts de instalação e remoção
 
 ## Procedimento recomendado
 
@@ -38,14 +42,14 @@ Levante rapidamente:
 
 - é atendimento, alerta, suporte interno ou vendas?
 - o destino é grupo ou contato?
-- o fluxo será humano assistido ou totalmente automatizado?
+- o fluxo será humano assistido ou automatizado?
 - existe necessidade de tom, SLA, roteamento ou escalonamento?
 
-Se o pedido já estiver claro, não trave o andamento com perguntas desnecessárias.
+Se o pedido já estiver claro, siga sem travar com perguntas desnecessárias.
 
 ### 2. Descobrir o chat ID
 
-Quando necessário, orientar o uso da extensão `wa-id-scanner/`:
+Quando necessário, orientar o uso da extensão `../wa-id-scanner/`:
 
 1. abrir `https://web.whatsapp.com`
 2. abrir o grupo ou contato
@@ -78,8 +82,19 @@ Preferir documentação prática, com:
 - exemplos reais
 - checklist de validação
 - riscos e limitações
+- instruções de instalação e atualização
 
-### 5. Proteger dados
+### 5. Facilitar reuso por outras pessoas
+
+Sempre que fizer sentido, deixar o projeto com:
+
+- README com quickstart
+- script de instalação
+- exemplo de configuração
+- templates prontos para adaptação
+- instruções claras de update e remoção
+
+### 6. Proteger dados
 
 Nunca expor:
 
@@ -99,13 +114,20 @@ Antes de considerar pronto, verifique:
 - teste de cenário feliz executado
 - teste de falha executado
 - documentação entregue
+- setup reproduzível por outra pessoa
 
 ## Arquivos de apoio
 
 - `../README.md`
 - `../examples/whatsapp-system-prompt.md`
+- `../examples/openclaw-skill-config.example.md`
+- `../examples/.env.chatiops.example`
 - `../wa-id-scanner/README.md`
+- `./templates/AGENTS.chatiops.md`
+- `./templates/TOOLS.chatiops.md`
+- `./templates/USER.chatiops.md`
+- `./templates/HEARTBEAT.chatiops.md`
 
 ## Observação
 
-Se o usuário pedir publicação em repositório, você pode preparar o projeto, inicializar git, commitar e tentar push. Se houver bloqueio de autenticação ou permissão, devolver o próximo passo exato para concluir.
+Se o usuário pedir publicação em repositório, você pode preparar o projeto, commitar e tentar push. Se houver bloqueio de autenticação ou permissão, devolver o próximo passo exato para concluir.
