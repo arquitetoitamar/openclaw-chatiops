@@ -54,12 +54,11 @@ Se o pedido já estiver claro, siga sem travar com perguntas desnecessárias.
 
 Quando a integração ainda não estiver pronta, orientar este caminho:
 
-1. acessar `https://chatiops.com` e fazer login
-2. abrir **Conexões** no menu lateral
-3. selecionar a conexão **WhatsApp** desejada
-4. abrir a aba **API**
-5. clicar em **Gerar Token**
-6. copiar e guardar o token em local seguro
+1. acessar `https://chatiops.tiops.com.br` e fazer login
+2. abrir **API** no menu lateral
+3. selecionar a conexão WhatsApp desejada (chips no topo)
+4. na aba **Configuração**, copiar o token
+5. ou na aba **MCP**, copiar a URL completa do MCP server
 
 Regras importantes:
 
@@ -67,6 +66,34 @@ Regras importantes:
 - nunca publicar ou commitar o token
 - o token não expira
 - se um novo token for gerado, o anterior deixa de funcionar automaticamente
+
+### 2.1 Usar MCP (recomendado para agentes compatíveis)
+
+Se o agente suporta MCP, basta configurar a URL:
+```
+https://api.chatiops.tiops.com.br/mcp?token=SEU_TOKEN
+```
+
+Tools disponíveis via MCP:
+- `send_whatsapp` — Enviar mensagem WhatsApp
+- `list_tickets` — Listar atendimentos (open/pending/closed)
+- `get_ticket_messages` — Histórico de um ticket
+- `reply_ticket` — Responder em um ticket
+- `search_contacts` — Buscar contatos por nome/número
+- `get_metrics` — Métricas do dia
+
+### 2.2 Usar API REST diretamente
+
+Base URL: `https://api.chatiops.tiops.com.br`
+Auth: `Authorization: Bearer SEU_TOKEN`
+
+Endpoints:
+- `POST /api/messages/send` — Enviar mensagem (number, body, priority)
+- `GET /api/tickets?status=open&limit=20` — Listar tickets
+- `GET /api/tickets/:id/messages?limit=50` — Mensagens de um ticket
+- `POST /api/tickets/:id/reply` — Responder (body)
+- `GET /api/contacts?search=nome` — Buscar contatos
+- `GET /api/metrics/summary` — Métricas resumidas
 
 ### 3. Descobrir o chat ID
 
